@@ -11,7 +11,14 @@ MRO focusses on speed and reproducibility. By default, packages are not installe
 **Important**: By running this container you accept the MKL license, see file `mklLicense.txt`. The interactive installation script of the [MKL download package](https://mran.revolutionanalytics.com/download/) was adapted in `RevoMath_noninteractive-install.sh` to not require any user input.
 
 
-## Build and run
+## Run container
+
+`docker run --user docker nuest/docker-mro`
+
+This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/docker-mro/).
+
+
+## Build image and run it
 
 Build the iamge:
 
