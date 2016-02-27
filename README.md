@@ -8,7 +8,7 @@ For plain R Docker images see [Rocker](), which were a great help in creating th
 
 MRO focusses on speed and reproducibility. By default, packages are not installed from main CRAN, but from a CRAN repository snapshot. For more information see https://mran.revolutionanalytics.com/documents/rro/reproducibility/. MRO promises better speed by using special multitreaded math libraries, replacing default R's BLAS/LAPACK libraries.
 
-**Important**: By running this container you accept the MKL license, see file `mklLicense.txt`. The interactive installation script of the [MKL download package](https://mran.revolutionanalytics.com/download/) was adapted in `RevoMath_noninteractive-install.sh`.
+**Important**: By running this container you accept the MKL license, see file `mklLicense.txt`. The interactive installation script of the [MKL download package](https://mran.revolutionanalytics.com/download/) was adapted in `RevoMath_noninteractive-install.sh` to not require any user input.
 
 
 ## Build and run
