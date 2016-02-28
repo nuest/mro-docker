@@ -50,6 +50,7 @@ RUN apt-get update \
 	build-essential \
 	make \
 	gcc \
+	g++ \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
@@ -74,9 +75,9 @@ RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/Re
 WORKDIR /home/docker/RevoMath
 COPY ./RevoMath_noninteractive-install.sh RevoMath_noninteractive-install.sh
 RUN ./RevoMath_noninteractive-install.sh \
-	&& echo "\n*** RevoMath Installation log ***\n" \
+	|| (echo "\n*** RevoMath Installation log ***\n" \
 	&& cat mkl_log.txt \
-	&& echo ""
+	&& echo "")
 
 WORKDIR /home/docker
 RUN rm RevoMath-*.tar.gz \
