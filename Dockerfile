@@ -49,6 +49,7 @@ RUN apt-get update \
 	# needed for installation of MKL:
 	build-essential \
 	make \
+	gcc \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
