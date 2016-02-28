@@ -38,9 +38,9 @@ getOption() {
 }
 
 printLicense() {
-more mklLicense.txt
+cat mklLicense.txt
 echo ""
-echo "License agreement implicitly accepted!!"
+echo "********** License agreement implicitly accepted! **********"
 echo ""
 }
 

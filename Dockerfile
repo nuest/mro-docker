@@ -31,9 +31,7 @@ ENV LANG en_US.UTF-8
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
     ca-certificates \
-	less \
-	wget \
-	nano \
+	curl \
 	# MRO dependencies dpkg does not install on its own:
 	libcairo2 \
 	libgfortran3 \
@@ -63,18 +61,18 @@ ENV MRO_VERSION 3.2.3
 WORKDIR /home/docker
 
 ## Download & Install MRO
-#RUN curl -LO -# "http://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb"
-RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
-	&& dpkg -i MRO-*.deb \
+RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
+#RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
+	&& dpkg -i MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& rm MRO-*.deb
 
 ## Donwload and install MKL as user docker so that .Rprofile etc. are properly set
-RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
+#RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
+RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
 	&& tar -xzf RevoMath-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/RevoMath
 COPY ./RevoMath_noninteractive-install.sh RevoMath_noninteractive-install.sh
 RUN ./RevoMath_noninteractive-install.sh
-RUN cat mkl_log.txt
 
 WORKDIR /home/docker
 RUN rm RevoMath-*.tar.gz \
