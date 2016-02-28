@@ -73,7 +73,10 @@ RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/Re
 	&& tar -xzf RevoMath-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/RevoMath
 COPY ./RevoMath_noninteractive-install.sh RevoMath_noninteractive-install.sh
-RUN ./RevoMath_noninteractive-install.sh
+RUN ./RevoMath_noninteractive-install.sh \
+	&& echo "\n*** RevoMath Installation log ***\n" \
+	&& cat mkl_log.txt \
+	&& echo ""
 
 WORKDIR /home/docker
 RUN rm RevoMath-*.tar.gz \
