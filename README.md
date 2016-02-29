@@ -1,4 +1,4 @@
-# A Docker image for Microsoft R open
+# A Docker image for Microsoft R Open
 
 Microsoft R Open, formerly known as Revolution R Open, is an "enhanced R distribution". You can use this Docker container to give it a quick try.
 

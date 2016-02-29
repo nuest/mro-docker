@@ -32,6 +32,7 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
     ca-certificates \
 	curl \
+	nano \
 	# MRO dependencies dpkg does not install on its own:
 	libcairo2 \
 	libgfortran3 \
@@ -82,6 +83,10 @@ RUN ./RevoMath_noninteractive-install.sh \
 WORKDIR /home/docker
 RUN rm RevoMath-*.tar.gz \
 	&& rm -r RevoMath
+
+# print MKL license on every start
+COPY mklLicense.txt mklLicense.txt
+RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-3.2.3/R-3.2.3/lib/R/etc/Rprofile.site
 
 COPY demo.R demo.R
 
