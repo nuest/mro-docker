@@ -55,7 +55,10 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
-ENV MRO_VERSION 3.2.3
+# Use major and minor vars to re-use them in non-interactive installtion script
+ENV MRO_VERSION_MAJOR 3
+ENV MRO_VERSION_MINOR 2.5
+ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR
 
 ## TODO: use Ubuntu this version to create the URL below
 #RUN export UBUNTU_VERSION="$(lsb_release -s -d | sed -e 's/Ubuntu //g')" \
@@ -78,7 +81,7 @@ COPY ./RevoMath_noninteractive-install.sh RevoMath_noninteractive-install.sh
 RUN ./RevoMath_noninteractive-install.sh \
 	|| (echo "\n*** RevoMath Installation log ***\n" \
 	&& cat mkl_log.txt \
-	&& echo "")
+	&& echo "\n")
 
 WORKDIR /home/docker
 RUN rm RevoMath-*.tar.gz \
@@ -86,7 +89,7 @@ RUN rm RevoMath-*.tar.gz \
 
 # print MKL license on every start
 COPY mklLicense.txt mklLicense.txt
-RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-3.2.3/R-3.2.3/lib/R/etc/Rprofile.site
+RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib/R/etc/Rprofile.site
 
 COPY demo.R demo.R
 

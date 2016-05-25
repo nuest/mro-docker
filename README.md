@@ -18,23 +18,27 @@ MRO focusses on speed and reproducibility. By default, packages are not installe
 This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/docker-mro/).
 
 
-## Build image and run it
+## Build image locally and run it
 
-Build the iamge:
+Build the image:
 
 `docker build -t mro .`
+
+Optionally you can create local tags with
+
+```
+docker build -t mro:v3.2.5 -t mro:latest .
+```
 
 Run the image:
 
 `docker run -it --user docker mro`
 
-(You can skip the --user docker if root rights are needed in the container.)
-
-In the container, R is automatically started, and execute a demo script:
+In the container, R is automatically started. You can execute a demo script:
 
 `source("demo.R")`
 
-Alternatively, you can start regular bash:
+Alternatively, you can start regular bash (you can skip the `--user docker` if root rights are needed in the container):
 
 `docker run -it --user docker mro /bin/bash`
 
@@ -43,6 +47,12 @@ When you exit R, the container is automatically stopped.
 To work with your own data, simply mount a directory on the host computer to the container, see the [Docker documentation on volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/).
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
+
+
+## Publish image on Docker Hub
+
+
+Then push to GitHub - the automated build should be available shortly after.
 
 
 ## Tasks / Ideas / Next steps

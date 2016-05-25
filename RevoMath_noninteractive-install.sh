@@ -2,8 +2,8 @@
 # Based on file RevoMath.sh from MKL release https://mran.revolutionanalytics.com/install/mro/3.2.3/RevoMath-3.2.3.tar.gz
 
 PWDD=`pwd`
-RRO_VERSION_MAJOR=3
-RRO_VERSION_MINOR=2.3
+RRO_VERSION_MAJOR=$MRO_VERSION_MAJOR
+RRO_VERSION_MINOR=$MRO_VERSION_MINOR
 R_PATH="noop"
 LIB_PATH=
 ETC_PATH=
@@ -11,14 +11,14 @@ ETC_PATH=
 getOption() {
         while [ 1 ]
         do
-#                printOptions
+                printOptions
 #                read ans
 #                if [ "1" = $ans ] ; then
 #					if [ ! "--nolicense" = "$1" ] ; then
 #						confirmLicense
 #					fi
-                     printLicense
-                     installMklLibraries
+                printLicense
+                installMklLibraries
 #                    break
 #                elif [ "2" = $ans ] ; then
 #                    uninstallMklLibraries
@@ -38,10 +38,13 @@ getOption() {
 }
 
 printLicense() {
-cat mklLicense.txt
-echo ""
-echo "********** License agreement implicitly accepted! **********"
-echo ""
+        echo "#"
+        echo "########## Continuing automatically with 1! ##########"
+        echo "#"
+        cat mklLicense.txt
+        echo "#"
+        echo "########## License agreement implicitly accepted! ##########"
+        echo "#"
 }
 
 
@@ -97,13 +100,13 @@ checkForValidRROInstallation() {
 ## check RRO installation
 if [ ! -e /usr/bin/R ]; then
      ## check default path
-    if [ ! -e /usr/lib64/MRO-3.2.3/R-3.2.3/lib64/R/bin/R ]; then
+    if [ ! -e /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib64/R/bin/R ]; then
         ## prompt user for valid RRO installation
         echo "Could not find a valid installation of Microsoft R Open ${RRO_VERSION_MAJOR}.${RRO_VERSION_MINOR}."
         echo "Exiting now..."
         exit 1
     else
-        R_PATH=/usr/lib64/MRO-3.2.3/R-3.2.3/lib64/R/bin/R
+        R_PATH=/usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib64/R/bin/R
     fi
 fi
 if [ ! -e $R_PATH ]; then
