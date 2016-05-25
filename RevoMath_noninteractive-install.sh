@@ -94,8 +94,6 @@ exit 0
 }
 
 checkForValidRROInstallation() {
-exit 1;
-
 ## check RRO installation
 if [ ! -e /usr/bin/R ]; then
      ## check default path
