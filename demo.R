@@ -18,7 +18,7 @@ print(options("repos"))
 cat("A MRAN snapshot is configured as CRAN repository.\n")
 cat("=========\n")
 
-cat("Run Simon Urbanek's benchmark v2.5:")
+cat("\n\nRun Simon Urbanek's benchmark v2.5:\n")
 # https://mran.revolutionanalytics.com/documents/rro/multithread/#mt-setget
 totalTestTime <- system.time({
   source(url("http://r.research.att.com/benchmarks/R-benchmark-25.R"))
