@@ -13,9 +13,9 @@ MRO focusses on speed and reproducibility. By default, packages are not installe
 
 ## Run container
 
-`docker run --user docker nuest/docker-mro`
+`docker run --user docker nuest/mro`
 
-This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/docker-mro/).
+This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/mro/).
 
 
 ## Build image locally and run it
@@ -48,13 +48,6 @@ To work with your own data, simply mount a directory on the host computer to the
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
 
-
-## Publish image on Docker Hub
-
-
-Then push to GitHub - the automated build should be available shortly after.
-
-
 ## Tasks / Ideas / Next steps
 
 * include something similar than the `install2.R` script so that packages can properly be installed
@@ -62,10 +55,11 @@ Then push to GitHub - the automated build should be available shortly after.
 * Create an image extending rocker/base-r for direct comparison
 * Pre-configure as recommended here: https://mran.revolutionanalytics.com/documents/rro/reproducibility/doc-research/
 
-
 ## License
 
-Copyright (C) 2016 Daniel Nüst
+[MRO and MKL licenses](https://mran.microsoft.com/faq/#licensing)
+
+Copyright (C) 2016 Daniel Nüst for mro-docker
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
