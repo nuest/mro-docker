@@ -24,7 +24,7 @@ Build the image:
 
 `docker build -t mro .`
 
-Optionally you can create local tags with
+Optionally you can create local tags (the image on Docker Hub does not have tags!) with
 
 ```
 docker build -t mro:v3.2.5 -t mro:latest .

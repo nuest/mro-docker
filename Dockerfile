@@ -54,14 +54,16 @@ RUN ./install.sh -a -u \
 	&& ls logs && cat logs/*
 
 # Print MKL and MRO EULAs on every start
+ENV PROFILE /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
 RUN cp MKL_EULA.txt /home/docker/MKL_EULA.txt \
 	&& cp MKL_EULA.txt /home/docker/MRO_EULA.txt \
-	&& echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site \
-	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
+	&& echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> $PROFILE \
+	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> $PROFILE
 
 # Clean up
 WORKDIR /home/docker
 RUN rm microsoft-r-open-$MRO_VERSION.tar.gz \
+	&& rm checksum.txt \
 	&& rm -r microsoft-r-open
 
 # Add demo script
