@@ -13,9 +13,9 @@ MRO focusses on speed and reproducibility. By default, packages are not installe
 
 ## Run container
 
-`docker run --user docker nuest/docker-mro`
+`docker run --user docker nuest/mro`
 
-This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/docker-mro/).
+This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/mro/).
 
 
 ## Build image locally and run it
@@ -24,7 +24,7 @@ Build the image:
 
 `docker build -t mro .`
 
-Optionally you can create local tags with
+Optionally you can create local tags (the image on Docker Hub does not have tags!) with
 
 ```
 docker build -t mro:v3.2.5 -t mro:latest .

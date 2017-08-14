@@ -13,7 +13,7 @@ MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## (Based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile)
+## User creation code (based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile):
 ## Set a default user. Available via runtime flag `--user docker`
 ## Add user to 'staff' group, granting them write privileges to /usr/local/lib/R/site.library
 ## User should also have & own a home directory (e.g. for linked volumes to work properly).
@@ -30,28 +30,8 @@ ENV LANG en_US.UTF-8
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	curl \
-	nano \
-	# MRO dependencies dpkg does not install on its own:
-	libcairo2 \
-	libgfortran3 \
-	libglib2.0-0 \
-	libgomp1 \
-	libjpeg8 \
-	libpango-1.0-0 \
-	libpangocairo-1.0-0 \
-	libtcl8.6 \
-	libtcl8.6 \
-	libtiff5 \
-	libtk8.6 \
-	libx11-6 \
-	libxt6 \
-	# needed for installation of MKL:
-	build-essential \
-	make \
-	gcc \
-	g++ \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
@@ -77,14 +57,20 @@ RUN ./RevoMath_noninteractive-install.sh \
 	&& cat mkl_log.txt \
 	&& echo "\n")
 
+# Print MKL and MRO EULAs on every start
+ENV PROFILE /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
+RUN cp MKL_EULA.txt /home/docker/MKL_EULA.txt \
+	&& cp MKL_EULA.txt /home/docker/MRO_EULA.txt \
+	&& echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> $PROFILE \
+	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> $PROFILE
+
+# Clean up
 WORKDIR /home/docker
-RUN rm RevoMath-*.tar.gz \
-	&& rm -r RevoMath
+RUN rm microsoft-r-open-$MRO_VERSION.tar.gz \
+	&& rm checksum.txt \
+	&& rm -r microsoft-r-open
 
-# print MKL license on every start
-COPY mklLicense.txt mklLicense.txt
-RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib/R/etc/Rprofile.site
-
+# Add demo script
 COPY demo.R demo.R
 
 CMD ["/usr/bin/R"]
