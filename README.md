@@ -12,6 +12,8 @@ MRO promises better speed by using special multi-threaded math libraries, replac
 
 **Important**: By running this container you accept the MKL and MRO licenses.
 
+Image metadata can be explored at Microbadger: [https://microbadger.com/images/nuest/mro](https://microbadger.com/images/nuest/mro)
+
 ## Run container
 
 ```bash
