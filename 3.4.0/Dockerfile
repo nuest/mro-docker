@@ -21,6 +21,7 @@ RUN useradd docker \
 	&& chown docker:docker /home/docker \
 	&& addgroup docker staff
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+	&& apt-get update && apt-get install -y locales \
 	&& locale-gen en_US.utf8 \
 	&& /usr/sbin/update-locale LANG=en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
@@ -64,6 +65,12 @@ COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site \
 	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
+
+# Overwrite default behaviour to never save workspace, see https://mran.revolutionanalytics.com/documents/rro/reproducibility/doc-research/
+RUN echo 'utils::assignInNamespace("q", function(save = "no", status = 0, runLast = TRUE) { \
+     .Internal(quit(save, status, runLast)) }, "base") \
+utils::assignInNamespace("quit", function(save = "no", status = 0, runLast = TRUE) { \
+     .Internal(quit(save, status, runLast)) }, "base")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
 
 # Add demo script
 COPY demo.R demo.R

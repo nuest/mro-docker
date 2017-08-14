@@ -43,6 +43,8 @@ You can install packages etc. in the R session as usual, though for reproducibil
 
 > The CRAN repository points to a snapshot from May 1, 2017. This means that every user of Microsoft R Open has access to the same set of CRAN package versions. [source](https://mran.microsoft.com/documents/rro/installation/#revorinst-lin)
 
+The based image is Ubuntu 16.04.
+
 Build the image:
 
 ```bash
@@ -53,6 +55,7 @@ docker build -t mro:3.4.0 .
 ## 3.2.5
 
 See installation instructions: https://mran.microsoft.com/archives/install-doc/mro-3.2.5/
+The based image is Ubuntu 14.04.
 The interactive installation script of the MKL download package was adapted in the file `RevoMath_noninteractive-install.sh` to not require any user input.
 
 Build the image:
@@ -61,6 +64,10 @@ Build the image:
 cd 3.2.5
 docker build -t mro:3.2.5 .
 ```
+
+## Automatic builds
+
+The automatic builds are configured to run on the `master` branch and each Dockerfile, e.g. `/3.4.0/Dockerfile` is tagged with the full release version, e.g. `3.4.0`. Other semantic version tags are added automatically by build hooks based on the directory names, e.g. `latest`, `3`, and `3.4` for our example.
 
 ## License
 
