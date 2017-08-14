@@ -1,5 +1,3 @@
-FROM ubuntu:14.04
-MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,6 +10,7 @@ MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+FROM ubuntu:14.04
 
 ## User creation code (based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile):
 ## Set a default user. Available via runtime flag `--user docker`
@@ -87,5 +86,16 @@ RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >
 
 # Add demo script
 COPY demo.R demo.R
+
+# Add image metadata
+LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
+    org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
+	org.label-schema.name="Microsoft R Open" \
+	org.label-schema.description="Docker images of Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \ 
+	org.label-schema.vcs-url=$VCS_URL \
+	org.label-schema.vcs-ref=$VCS_REF \
+	org.label-schema.build-date=$BUILD_DATE \
+	org.label-schema.schema-version="rc1" \
+	maintainer="Daniel Nüst <daniel.nuest@uni-muenster.de>"
 
 CMD ["/usr/bin/R"]

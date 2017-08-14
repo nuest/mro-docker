@@ -1,5 +1,3 @@
-FROM ubuntu:16.04
-MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,6 +10,7 @@ MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+FROM ubuntu:16.04
 
 ## (Based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile)
 ## Set a default user. Available via runtime flag `--user docker`
@@ -60,12 +59,24 @@ WORKDIR /home/docker
 RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
-# print EULAs on every start of R to the user, because they were accepted at image build time
+# Print EULAs on every start of R to the user, because they were accepted at image build time
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site \
 	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
 
+# Add demo script
 COPY demo.R demo.R
+
+# Add image metadata
+LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
+    org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
+	org.label-schema.name="Microsoft R Open" \
+	org.label-schema.description="Docker images of Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \ 
+	org.label-schema.vcs-url=$VCS_URL \
+	org.label-schema.vcs-ref=$VCS_REF \
+	org.label-schema.build-date=$BUILD_DATE \
+	org.label-schema.schema-version="rc1" \
+	maintainer="Daniel Nüst <daniel.nuest@uni-muenster.de>"
 
 CMD ["/usr/bin/R"]
