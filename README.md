@@ -4,45 +4,36 @@ Microsoft R Open, formerly known as Revolution R Open, is an "enhanced R distrib
 
 Homepage: https://mran.revolutionanalytics.com/open/
 
-For plain R Docker images see [Rocker](), which were a great help in creating these images.
+For plain R Docker images see [Rocker](https://github.com/rocker-org/rocker). The Rocker images were a great help in creating the MRO images.
 
-MRO focusses on speed and reproducibility. By default, packages are not installed from main CRAN, but from a CRAN repository snapshot. For more information see https://mran.revolutionanalytics.com/documents/rro/reproducibility/. MRO promises better speed by using special multitreaded math libraries, replacing default R's BLAS/LAPACK libraries.
+_MRO focusses on speed and reproducibility._
+By default, packages are not installed from main CRAN, but from a CRAN repository snapshot. For more information see https://mran.revolutionanalytics.com/documents/rro/reproducibility/.
+MRO promises better speed by using special multi-threaded math libraries, replacing default R's BLAS/LAPACK libraries.
 
-**Important**: By running this container you accept the MKL license, see file `mklLicense.txt`. The interactive installation script of the [MKL download package](https://mran.revolutionanalytics.com/download/) was adapted in `RevoMath_noninteractive-install.sh` to not require any user input.
-
+**Important**: By running this container you accept the MKL and MRO licenses.
 
 ## Run container
 
-`docker run --user docker nuest/mro`
+```bash
+docker run --user docker nuest/mro
+```
 
 This downloads the latest build of the image from [Docker Hub](https://hub.docker.com/r/nuest/mro/).
+In the container, R is automatically started. When you exit R, the container is automatically stopped.
 
+Optionally you can use [tags](https://hub.docker.com/r/nuest/mro/tags/) for specific versions of MRO and execute a demo script:
 
-## Build image locally and run it
-
-Build the image:
-
-`docker build -t mro .`
-
-Optionally you can create local tags (the image on Docker Hub does not have tags!) with
-
-```
+```bash
 docker build -t mro:v3.2.5 -t mro:latest .
+
+source("demo.R")
 ```
-
-Run the image:
-
-`docker run -it --user docker mro`
-
-In the container, R is automatically started. You can execute a demo script:
-
-`source("demo.R")`
 
 Alternatively, you can start regular bash (you can skip the `--user docker` if root rights are needed in the container):
 
-`docker run -it --user docker mro /bin/bash`
-
-When you exit R, the container is automatically stopped.
+```bash
+docker run -it --user docker mro /bin/bash
+```
 
 To work with your own data, simply mount a directory on the host computer to the container, see the [Docker documentation on volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/).
 
@@ -52,18 +43,30 @@ You can install packages etc. in the R session as usual, though for reproducibil
 
 > The CRAN repository points to a snapshot from May 1, 2017. This means that every user of Microsoft R Open has access to the same set of CRAN package versions. [source](https://mran.microsoft.com/documents/rro/installation/#revorinst-lin)
 
+Build the image:
+
+```bash
+cd 3.4.0
+docker build -t mro:3.4.0 .
+```
+
 ## 3.2.5
 
-TBD
+See installation instructions: https://mran.microsoft.com/archives/install-doc/mro-3.2.5/
+The interactive installation script of the MKL download package was adapted in the file `RevoMath_noninteractive-install.sh` to not require any user input.
 
-## Tasks / Ideas / Next steps
+Build the image:
 
-* include something similar than the `install2.R` script so that packages can properly be installed
-* Try out the benchmarks: https://mran.revolutionanalytics.com/documents/rro/multithread/
-* Create an image extending rocker/base-r for direct comparison
-* Pre-configure as recommended here: https://mran.revolutionanalytics.com/documents/rro/reproducibility/doc-research/
+```bash
+cd 3.2.5
+docker build -t mro:3.2.5 .
+```
 
 ## License
+
+[MRO and MKL licenses](https://mran.microsoft.com/faq/#licensing)
+
+The following license applies to the code files in this repository:
 
 Copyright (C) 2017 Daniel Nüst
 

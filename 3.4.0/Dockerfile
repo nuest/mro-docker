@@ -30,14 +30,14 @@ ENV LANG en_US.UTF-8
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
-    ca-certificates \
-	curl \
-	# MRO dependencies that don't sort themselves out on their own:
-	less \
-	libgomp1 \
-	libpango-1.0-0 \
-	libxt6 \
-	libsm6 \
+		ca-certificates \
+		curl \
+		# MRO dependencies that don't sort themselves out on their own:
+		less \
+		libgomp1 \
+		libpango-1.0-0 \
+		libxt6 \
+		libsm6 \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin

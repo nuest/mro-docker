@@ -30,9 +30,28 @@ ENV LANG en_US.UTF-8
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
-	ca-certificates \
-	curl \
-	&& rm -rf /var/lib/apt/lists/*
+		ca-certificates \
+		curl \
+		nano \
+		# MRO dependencies dpkg does not install on its own:
+		libcairo2 \
+		libgfortran3 \
+		libglib2.0-0 \
+		libgomp1 \
+		libjpeg8 \
+		libpango-1.0-0 \
+		libpangocairo-1.0-0 \
+		libtcl8.6 \
+		libtcl8.6 \
+		libtiff5 \
+		libtk8.6 \
+		libx11-6 \
+		libxt6 \
+		# needed for installation of MKL:
+		build-essential \
+		make \
+		gcc \
+  	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
 # Use major and minor vars to re-use them in non-interactive installation script
@@ -42,12 +61,12 @@ ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR
 
 WORKDIR /home/docker
 
-## Download & Install MRO
+# Download & Install MRO
 RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& dpkg -i MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& rm MRO-*.deb
 
-## Donwload and install MKL as user docker so that .Rprofile etc. are properly set
+# Download and install MKL as user docker so that .Rprofile etc. are properly set
 RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
 	&& tar -xzf RevoMath-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/RevoMath
@@ -57,18 +76,14 @@ RUN ./RevoMath_noninteractive-install.sh \
 	&& cat mkl_log.txt \
 	&& echo "\n")
 
-# Print MKL and MRO EULAs on every start
-ENV PROFILE /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
-RUN cp MKL_EULA.txt /home/docker/MKL_EULA.txt \
-	&& cp MKL_EULA.txt /home/docker/MRO_EULA.txt \
-	&& echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> $PROFILE \
-	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> $PROFILE
-
 # Clean up
-WORKDIR /home/docker
-RUN rm microsoft-r-open-$MRO_VERSION.tar.gz \
-	&& rm checksum.txt \
-	&& rm -r microsoft-r-open
+WORKDIR /home/docker 
+RUN rm RevoMath-*.tar.gz \ 
+  && rm -r RevoMath 
+
+# Print MKL license on every start 
+COPY mklLicense.txt mklLicense.txt 
+RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib/R/etc/Rprofile.site 
 
 # Add demo script
 COPY demo.R demo.R
