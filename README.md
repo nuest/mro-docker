@@ -48,12 +48,13 @@ To work with your own data, simply mount a directory on the host computer to the
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
 
+## 3.4.0
 
-## Publish image on Docker Hub
+> The CRAN repository points to a snapshot from May 1, 2017. This means that every user of Microsoft R Open has access to the same set of CRAN package versions. [source](https://mran.microsoft.com/documents/rro/installation/#revorinst-lin)
 
+## 3.2.5
 
-Then push to GitHub - the automated build should be available shortly after.
-
+TBD
 
 ## Tasks / Ideas / Next steps
 
@@ -62,10 +63,9 @@ Then push to GitHub - the automated build should be available shortly after.
 * Create an image extending rocker/base-r for direct comparison
 * Pre-configure as recommended here: https://mran.revolutionanalytics.com/documents/rro/reproducibility/doc-research/
 
-
 ## License
 
-Copyright (C) 2016 Daniel Nüst
+Copyright (C) 2017 Daniel Nüst
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

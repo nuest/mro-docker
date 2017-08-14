@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:14.04
 MAINTAINER Daniel Nüst <daniel.nuest@uni-muenster.de>
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -55,25 +55,19 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
-# Use major and minor vars to re-use them in non-interactive installtion script
+# Use major and minor vars to re-use them in non-interactive installation script
 ENV MRO_VERSION_MAJOR 3
 ENV MRO_VERSION_MINOR 2.5
 ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR
-
-## TODO: use Ubuntu this version to create the URL below
-#RUN export UBUNTU_VERSION="$(lsb_release -s -d | sed -e 's/Ubuntu //g')" \
-#	&& echo $UBUNTU_VERSION
 
 WORKDIR /home/docker
 
 ## Download & Install MRO
 RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
-#RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& dpkg -i MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& rm MRO-*.deb
 
 ## Donwload and install MKL as user docker so that .Rprofile etc. are properly set
-#RUN wget https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
 RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
 	&& tar -xzf RevoMath-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/RevoMath
