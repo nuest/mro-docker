@@ -75,6 +75,10 @@ utils::assignInNamespace("quit", function(save = "no", status = 0, runLast = TRU
 # Add demo script
 COPY demo.R demo.R
 
+ARG VCS_URL
+ARG VCS_REF
+ARG BUILD_DATE
+
 # Add image metadata
 LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
     org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
