@@ -3,7 +3,7 @@
 [![](https://images.microbadger.com/badges/version/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own image badge on microbadger.com") [![Docker Automated build](https://img.shields.io/docker/automated/nuest/mro.svg)](https://hub.docker.com/r/nuest/mro/)
 
 Microsoft R Open, formerly known as Revolution R Open, is an "enhanced R distribution".
-You can use this Docker container to give MRO a quick try, i.e. without any impact on your system, or to run MRO a Docker infrastructure.
+You can use this Docker container to give MRO a quick try, i.e. without any impact on your local system, or to run MRO in an online Docker infrastructure.
 
 Homepage: https://mran.revolutionanalytics.com/open/
 
