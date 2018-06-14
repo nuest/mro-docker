@@ -1,12 +1,16 @@
 # A Docker image for Microsoft R Open
 
-Microsoft R Open, formerly known as Revolution R Open, is an "enhanced R distribution". You can use this Docker container to give it a quick try.
+[![](https://images.microbadger.com/badges/version/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own image badge on microbadger.com") [![Docker Automated build](https://img.shields.io/docker/automated/nuest/mro.svg)](https://hub.docker.com/r/nuest/mro/)
+
+Microsoft R Open, formerly known as Revolution R Open, is an "enhanced R distribution".
+You can use this Docker container to give MRO a quick try, i.e. without any impact on your local system, or to run MRO in an online Docker infrastructure.
 
 Homepage: https://mran.revolutionanalytics.com/open/
 
 For plain R Docker images see [Rocker](https://github.com/rocker-org/rocker). The Rocker images were a great help in creating the MRO images.
 
-_MRO focusses on speed and reproducibility._
+> _MRO focusses on speed and reproducibility._
+
 By default, packages are not installed from main CRAN, but from a CRAN repository snapshot. For more information see https://mran.revolutionanalytics.com/documents/rro/reproducibility/.
 MRO promises better speed by using special multi-threaded math libraries, replacing default R's BLAS/LAPACK libraries.
 
