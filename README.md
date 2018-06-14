@@ -42,6 +42,19 @@ To work with your own data, simply mount a directory on the host computer to the
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
 
+## 3.5.0
+
+> _Microsoft R Open 3.5.0 is based on R-3.5.0._
+> _The default CRAN mirror has been updated to point to the fixed CRAN repository snapshot from June 01, 2018._ [release notes](https://mran.microsoft.com/news#mro350)
+
+The base image is Ubuntu 16.04.
+See also [MRO 3.5.0 documentation](https://mran.microsoft.com/releases/3.5.0).
+
+```bash
+cd 3.5.0
+docker build -t mro:3.5.0 .
+```
+
 ## 3.4.4
 
 > _The CRAN repository points to a snapshot from May 1, 2017._
@@ -60,8 +73,9 @@ docker build -t mro:3.4.4 .
 ## 3.2.5
 
 See installation instructions: https://mran.microsoft.com/archives/install-doc/mro-3.2.5/
-The based image is Ubuntu 14.04.
+The base image is Ubuntu 14.04.
 The interactive installation script of the MKL download package was adapted in the file `RevoMath_noninteractive-install.sh` to not require any user input.
+See also [MRO 3.2.5 documentation](https://mran.microsoft.com/archives/mro-3.2.5) (archived).
 
 Build the image:
 
