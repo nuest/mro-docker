@@ -44,13 +44,13 @@ RUN apt-get update \
 # Use major and minor vars to re-use them in non-interactive installation script
 ENV MRO_VERSION_MAJOR 3
 ENV MRO_VERSION_MINOR 4
-ENV MRO_VERSION_BUGFIX 0
+ENV MRO_VERSION_BUGFIX 4
 ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR.$MRO_VERSION_BUGFIX
 
 WORKDIR /home/docker
 
 ## Donwload and install MRO & MKL
-RUN curl -LO -# https://mran.microsoft.com/install/mro/$MRO_VERSION/microsoft-r-open-$MRO_VERSION.tar.gz \
+RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r-open-$MRO_VERSION.tar.gz \
 	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/microsoft-r-open
 RUN  ./install.sh -a -u
@@ -63,14 +63,8 @@ RUN rm microsoft-r-open-*.tar.gz \
 # Print EULAs on every start of R to the user, because they were accepted at image build time
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
-RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site \
-	&& echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
-
-# Overwrite default behaviour to never save workspace, see https://mran.revolutionanalytics.com/documents/rro/reproducibility/doc-research/
-RUN echo 'utils::assignInNamespace("q", function(save = "no", status = 0, runLast = TRUE) { \
-     .Internal(quit(save, status, runLast)) }, "base") \
-utils::assignInNamespace("quit", function(save = "no", status = 0, runLast = TRUE) { \
-     .Internal(quit(save, status, runLast)) }, "base")' >> /usr/lib64/microsoft-r/$MRO_VERSION_MAJOR.$MRO_VERSION_MINOR/lib64/R/etc/Rprofile.site
+RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site	&& \
+	echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
 # Add demo script
 COPY demo.R demo.R
@@ -86,4 +80,4 @@ LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
 	org.label-schema.schema-version="rc1" \
 	maintainer="Daniel Nüst <daniel.nuest@uni-muenster.de>"
 
-CMD ["/usr/bin/R"]
+CMD ["/usr/bin/R", "--no-save"]
