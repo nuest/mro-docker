@@ -52,7 +52,6 @@ RUN apt-get update \
 		gcc \
   	&& rm -rf /var/lib/apt/lists/*
 
-## https://mran.revolutionanalytics.com/documents/rro/installation/#revorinst-lin
 # Use major and minor vars to re-use them in non-interactive installation script
 ENV MRO_VERSION_MAJOR 3
 ENV MRO_VERSION_MINOR 2.5
