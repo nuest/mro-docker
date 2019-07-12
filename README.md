@@ -47,6 +47,19 @@ To work with your own data, simply mount a directory on the host computer to the
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
 
+## 3.5.3
+
+> _Microsoft R Open 3.5.3 is based on R-3.5.3._
+> _The default CRAN mirror has been updated to point to the fixed CRAN repository snapshot from Apr 15, 2019._ [release notes](https://mran.microsoft.com/news#mro353)
+
+The base image is Ubuntu 16.04.
+See also [MRO 3.5.3 documentation](https://mran.microsoft.com/releases/3.5.3).
+
+```bash
+cd 3.5.3
+docker build -t mro:3.5.3 .
+```
+
 ## 3.5.0
 
 > _Microsoft R Open 3.5.0 is based on R-3.5.0._
