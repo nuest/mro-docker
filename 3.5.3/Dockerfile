@@ -67,6 +67,8 @@ RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
 # Print EULAs on every start of R to the user, because they were accepted at image build time
+# NOTE: This causes some install.packages() commands to fail, start R with --vanilla to avoid startup messages and be able to install them!
+# The reason is that cat() prints into one of the to-be-executed commands, producing an invalid compiler input. This should be replaced!
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site && \
