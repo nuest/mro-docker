@@ -43,8 +43,8 @@ RUN apt-get update \
 		r-base-dev \
 		libcurl4-gnutls-dev \
 		libxml2-dev \
-		libssl-dev
-	&& rm -rf /var/lib/apt/lists/*
+		libssl-dev \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& chmod a+rwx /tmp
 
 # Use major and minor vars to re-use them in non-interactive installation script
