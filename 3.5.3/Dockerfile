@@ -75,7 +75,7 @@ RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
 # Install some popular packages by default (this might take some time!)
-RUN Rscript -e "install.packages(c('data.table', 'compiler', 'ggplot2', 'plyr', 'dplyr', 'igraph', 'crayon', 'doParallel', 'doSNOW'))"
+RUN Rscript -e "install.packages(c('data.table', 'ggplot2', 'plyr', 'dplyr', 'igraph', 'crayon', 'doParallel', 'doSNOW'), quiet = TRUE)"
 
 # Register user library path in R for additional packages installed by the user
 RUN Rscript --vanilla -e ".libPaths(Sys.getenv('R_LIBS_USER'))"
