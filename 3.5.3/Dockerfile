@@ -29,11 +29,11 @@ ENV LANG en_US.UTF-8
 
 # Temp folder for R
 ENV TMPDIR /home/docker/R/RTMP
-RUN mkdir $TMPDIR && chown docker -R $TMPDIR
+RUN mkdir -p $TMPDIR && chown docker -R $TMPDIR
 
 # Additional packages should be installed here:
 ENV R_LIBS_USER /home/docker/R/packages
-RUN mkdir $R_LIBS_USER && chown docker -R $R_LIBS_USER
+RUN mkdir -p $R_LIBS_USER && chown docker -R $R_LIBS_USER
 
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
