@@ -52,6 +52,7 @@ RUN apt-get update \
 		libcurl4-gnutls-dev \
 		libxml2-dev \
 		libssl-dev \
+		git \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& chmod a+rwx /tmp
 
