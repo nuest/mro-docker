@@ -27,6 +27,14 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
+# Temp folder for R
+ENV TMPDIR /home/docker/R/RTMP
+RUN mkdir $TMPDIR && chown docker -R $TMPDIR
+
+# Additional packages should be installed here:
+ENV R_LIBS_USER /home/docker/R/packages
+RUN mkdir $R_LIBS_USER && chown docker -R $R_LIBS_USER
+
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
@@ -65,6 +73,12 @@ RUN  ./install.sh -a -u
 WORKDIR /home/docker
 RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
+
+# Install some popular packages by default (this might take some time!)
+RUN Rscript --vanilla -e "install.packages(c('data.table', 'compiler', 'ggplot2', 'plyr', 'dplyr', 'igraph', 'crayon', 'doParallel', 'doSNOW'))"
+
+# Register user library path in R for additional packages installed by the user
+RUN Rscript --vanilla -e ".libPaths(Sys.getenv('R_LIBS_USER'))"
 
 # Print EULAs on every start of R to the user, because they were accepted at image build time
 # NOTE: This causes some install.packages() commands to fail, start R with --vanilla to avoid startup messages and be able to install them!
