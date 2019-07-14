@@ -86,8 +86,8 @@ RUN Rscript --vanilla -e ".libPaths(Sys.getenv('R_LIBS_USER'))"
 # The reason is that cat() prints into one of the to-be-executed commands, producing an invalid compiler input. This should be replaced!
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
-RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site && \
-	echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
+RUN echo 'local({ cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n") })' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site && \
+	echo 'local({ cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n") })' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
 # Add demo script
 COPY demo.R demo.R
