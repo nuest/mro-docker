@@ -61,6 +61,18 @@ cd 3.5.3
 docker build -t mro:3.5.3 .
 ```
 
+### 3.5.3-verse
+
+A copycat of the `rocker/verse` image, installing `tidyverse` and other often used packages, and adding R Markdown authoring tools (LaTeX etc.).
+
+```bash
+# if using only local builds:
+#docker tag mro:3.5.3 nuest/mro:3.5.3
+
+cd 3.5.3-verse
+docker build -t mro:3.5.3-verse .
+```
+
 ## 3.5.0
 
 > _Microsoft R Open 3.5.0 is based on R-3.5.0._
