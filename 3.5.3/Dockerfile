@@ -54,7 +54,7 @@ ENV R_HOME=/opt/microsoft/ropen/$MRO_VERSION/lib64/R
 
 WORKDIR /home/docker
 
-## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.0/microsoft-r-open-3.5.0.tar.gz
+## Download and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.0/microsoft-r-open-3.5.0.tar.gz
 RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/ubuntu/microsoft-r-open-$MRO_VERSION.tar.gz \
 	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
 RUN tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
@@ -65,15 +65,6 @@ RUN  ./install.sh -a -u
 WORKDIR /home/docker
 RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
-
-# Print EULAs on every start of R to the user, because they were accepted at image build time
-COPY MKL_EULA.txt MKL_EULA.txt
-COPY MRO_EULA.txt MRO_EULA.txt
-RUN echo '\
-if (all(is.na(match(c("-q", "--silent", "--quiet", "--slave"), commandArgs())))) { \n\
-	cat("\\n", readLines("/home/docker/MKL_EULA.txt"), "\\n", sep="\\n") \n\
-	cat("\\n", readLines("/home/docker/MRO_EULA.txt"), "\\n", sep="\\n") \n\
-}' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
 # Add Rcpp because it is widely used
 RUN Rscript -e 'install.packages("Rcpp")'
@@ -88,7 +79,7 @@ COPY demo.R demo.R
 LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
     org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
 	org.label-schema.name="Microsoft R Open" \
-	org.label-schema.description="Docker images of Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \ 
+	org.label-schema.description="Docker images of Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \
 	org.label-schema.vcs-url=$VCS_URL \
 	org.label-schema.vcs-ref=$VCS_REF \
 	org.label-schema.build-date=$BUILD_DATE \
