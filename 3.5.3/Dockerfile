@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ## (Based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile)
 ## Set a default user. Available via runtime flag `--user docker`
@@ -27,14 +27,6 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-# Temp folder for R
-ENV TMPDIR /home/docker/R/RTMP
-RUN mkdir -p $TMPDIR && chown docker -R $TMPDIR
-
-# Additional packages should be installed here:
-ENV R_LIBS_USER /home/docker/R/packages
-RUN mkdir -p $R_LIBS_USER && chown docker -R $R_LIBS_USER
-
 ## Install some useful tools and dependencies for MRO
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
@@ -46,27 +38,24 @@ RUN apt-get update \
 		libpango-1.0-0 \
 		libxt6 \
 		libsm6 \
-		# required for installing most R packages with install.packages()
-		build-essential \
-		r-base-dev \
-		libcurl4-gnutls-dev \
-		libxml2-dev \
-		libssl-dev \
-		git \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& chmod a+rwx /tmp
+		# Needed for Rcpp:
+		make \
+		g++ \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Use major and minor vars to re-use them in non-interactive installation script
 ENV MRO_VERSION_MAJOR 3
 ENV MRO_VERSION_MINOR 5
 ENV MRO_VERSION_BUGFIX 3
 ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR.$MRO_VERSION_BUGFIX
+ENV R_HOME=/opt/microsoft/ropen/$MRO_VERSION/lib64/R
 
 WORKDIR /home/docker
 
-## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.3/ubuntu/microsoft-r-open-3.5.3.tar.gz
+## Donwload and install MRO & MKL, see https://mran.microsoft.com/download https://mran.blob.core.windows.net/install/mro/3.5.0/microsoft-r-open-3.5.0.tar.gz
 RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/ubuntu/microsoft-r-open-$MRO_VERSION.tar.gz \
 	&& tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
+RUN tar -xzf microsoft-r-open-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/microsoft-r-open
 RUN  ./install.sh -a -u
 
@@ -75,14 +64,7 @@ WORKDIR /home/docker
 RUN rm microsoft-r-open-*.tar.gz \
 	&& rm -r microsoft-r-open
 
-# Install some popular packages by default (this might take some time!)
-RUN Rscript -e "install.packages(c('data.table', 'ggplot2', 'plyr', 'dplyr', 'igraph', 'crayon', 'doParallel', 'doSNOW'), quiet = TRUE, Ncpus = 4)"
-
-# Register user library path in R for additional packages installed by the user
-RUN Rscript --vanilla -e ".libPaths(Sys.getenv('R_LIBS_USER'))"
-
 # Print EULAs on every start of R to the user, because they were accepted at image build time
-# These will only print in the main R instance, not in child instances
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo '\
@@ -91,12 +73,18 @@ if (all(is.na(match(c("-q", "--silent", "--quiet", "--slave"), commandArgs()))))
 	cat("\\n", readLines("/home/docker/MRO_EULA.txt"), "\\n", sep="\n") \n\
 }' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
+# Add Rcpp because it is widely used
+RUN Rscript -e 'install.packages("Rcpp")'
+
+# Use libcurl for download, otherwise problems with tar files
+RUN echo 'options("download.file.method" = "libcurl")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
+
 # Add demo script
 COPY demo.R demo.R
 
 # Add image metadata
 LABEL org.label-schema.license="https://mran.microsoft.com/faq/#licensing" \
-    org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst, augmented by Imre Gera" \
+    org.label-schema.vendor="Microsoft Corporation, Dockerfile provided by Daniel Nüst" \
 	org.label-schema.name="Microsoft R Open" \
 	org.label-schema.description="Docker images of Microsoft R Open (MRO) with the Intel® Math Kernel Libraries (MKL)." \ 
 	org.label-schema.vcs-url=$VCS_URL \

@@ -60,12 +60,12 @@ ENV MRO_VERSION $MRO_VERSION_MAJOR.$MRO_VERSION_MINOR
 WORKDIR /home/docker
 
 # Download & Install MRO
-RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
+RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& dpkg -i MRO-$MRO_VERSION-Ubuntu-14.4.x86_64.deb \
 	&& rm MRO-*.deb
 
 # Download and install MKL as user docker so that .Rprofile etc. are properly set
-RUN curl -LO -# https://mran.revolutionanalytics.com/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
+RUN curl -LO -# https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/RevoMath-$MRO_VERSION.tar.gz \
 	&& tar -xzf RevoMath-$MRO_VERSION.tar.gz
 WORKDIR /home/docker/RevoMath
 COPY ./RevoMath_noninteractive-install.sh RevoMath_noninteractive-install.sh
