@@ -69,8 +69,8 @@ COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
 RUN echo '\
 if (all(is.na(match(c("-q", "--silent", "--quiet", "--slave"), commandArgs())))) { \n\
-	cat("\\n", readLines("/home/docker/MKL_EULA.txt"), "\\n", sep="\n") \n\
-	cat("\\n", readLines("/home/docker/MRO_EULA.txt"), "\\n", sep="\n") \n\
+	cat("\\n", readLines("/home/docker/MKL_EULA.txt"), "\\n", sep="\\n") \n\
+	cat("\\n", readLines("/home/docker/MRO_EULA.txt"), "\\n", sep="\\n") \n\
 }' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
 # Add Rcpp because it is widely used
