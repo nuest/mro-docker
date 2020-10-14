@@ -31,7 +31,7 @@ In the container, R is automatically started. When you exit R, the container is 
 Optionally you can use [tags](https://hub.docker.com/r/nuest/mro/tags/) for specific versions of MRO and execute a demo script:
 
 ```bash
-docker run -it --rm nuest/mro:3.5.3
+docker run -it --rm nuest/mro:4.0.2
 
 # in R
 > source("demo.R")
@@ -46,6 +46,20 @@ docker run -it --user docker mro /bin/bash
 To work with your own data, simply mount a directory on the host computer to the container, see the [Docker documentation on volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/).
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
+
+## 4.0.2
+
+> _Microsoft R Open 4.0.2 is based on R-4.0.2._
+> _The default CRAN mirror has been updated to point to the fixed CRAN repository snapshot from Jul 16, 2020._ [release notes](https://mran.microsoft.com/news#mro402)
+
+The base image is Ubuntu 18.04.
+This is also the first MRO image with `Rcpp` preinstalled.
+See also [MRO 4.0.2 documentation](https://mran.microsoft.com/releases/4.0.2).
+
+```bash
+cd 4.0.2
+docker build -t mro:4.0.2 .
+```
 
 ## 3.5.3
 
