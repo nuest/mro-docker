@@ -62,8 +62,11 @@ RUN rm microsoft-r-open-*.tar.gz \
 # Print EULAs on every start of R to the user, because they were accepted at image build time
 COPY MKL_EULA.txt MKL_EULA.txt
 COPY MRO_EULA.txt MRO_EULA.txt
-RUN echo 'cat("\n", readLines("/home/docker/MKL_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site && \
-	echo 'cat("\n", readLines("/home/docker/MRO_EULA.txt"), "\n", sep="\n")' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
+RUN echo '\
+if (all(is.na(match(c("-q", "--silent", "--quiet", "--slave"), commandArgs())))) { \n\
+	cat("\\n", readLines("/home/docker/MKL_EULA.txt"), "\\n", sep="\\n") \n\
+	cat("\\n", readLines("/home/docker/MRO_EULA.txt"), "\\n", sep="\\n") \n\
+}' >> /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site
 
 # Add demo script
 COPY demo.R demo.R

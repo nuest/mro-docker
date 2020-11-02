@@ -81,7 +81,10 @@ RUN rm RevoMath-*.tar.gz \
 
 # Print MKL license on every start 
 COPY mklLicense.txt mklLicense.txt 
-RUN echo 'cat("\n", readLines("/home/docker/mklLicense.txt"), "\n", sep="\n")' >> /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib/R/etc/Rprofile.site 
+RUN echo '\
+if (all(is.na(match(c("-q", "--silent", "--quiet", "--slave"), commandArgs())))) { \n\
+	cat("\\n", readLines("/home/docker/mklLicense.txt"), "\\n", sep="\\n") \n\
+}' >> /usr/lib64/MRO-$MRO_VERSION/R-$MRO_VERSION/lib/R/etc/Rprofile.site 
 
 # Add demo script
 COPY demo.R demo.R

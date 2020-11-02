@@ -47,6 +47,14 @@ To work with your own data, simply mount a directory on the host computer to the
 
 You can install packages etc. in the R session as usual, though for reproducibility it is strongly recommended to do this _only_ in the Dockerfile.
 
+By default, the licenses and terms of use will printed when you start a container, because you had no chance to acknowledge them before downloading the image.
+If you want to disable the license printing, you can override the default R command and use one of these options, which will disable the license output (in addition to the options main effect): `-q`, `--silent`, `--quiet`, `--slave`.
+
+```bash
+$ docker run -it --rm mro:3.5.3 R --quiet
+>
+```
+
 ## 3.5.3
 
 > _Microsoft R Open 3.5.3 is based on R-3.5.3._
@@ -126,6 +134,10 @@ Please be aware of the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Please open an issue before you start considerable work and do check out existing (closed) issues for possible tasks or previously answered problems.
 Feel free to ping the maintainer via Email if you don't get a response within a few weeks.
+
+### Thanks
+
+- Imre Gera [@Hanziness](https://github.com/Hanziness) contributed improved printing of EULAs/licenses ([#12](https://github.com/nuest/mro-docker/pull/12))
 
 ## License
 
