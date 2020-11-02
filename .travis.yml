@@ -3,13 +3,17 @@ os: linux
 services:
   - docker
 
+env:
+- VERSION=3.5.3
+- VERSION=4.0.2
+
 before_install:
   - docker pull ubuntu:14.04
   - docker pull ubuntu:16.04
   - docker pull ubuntu:18.04
 
 install:
-  - docker build -t mro:3.5.3 --file 3.5.3/Dockerfile 3.5.3/.
+  - docker build -t mro:$VERSION --file $VERSION/Dockerfile $VERSION/.
 
 script:
-  - docker run --rm -it mro:3.5.3 R -e "sessionInfo()"
+  - docker run --rm -it mro:$VERSION R -e "sessionInfo()"
