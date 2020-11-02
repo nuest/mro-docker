@@ -1,0 +1,15 @@
+---
+os: linux
+services:
+  - docker
+
+before_install:
+  - docker pull ubuntu:14.04
+  - docker pull ubuntu:16.04
+  - docker pull ubuntu:18.04
+
+install:
+  - docker build -t mro:3.5.3 --file 3.5.3/Dockerfile 3.5.3/.
+
+script:
+  - docker run --rm -it mro:3.5.3 R -e "sessionInfo()"
