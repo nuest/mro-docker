@@ -119,13 +119,21 @@ docker build -t mro:3.2.5 .
 
 The automatic builds are configured to run on the `master` branch and each Dockerfile, e.g. `/3.4.0/Dockerfile` is tagged with the full release version, e.g. `3.4.0`. Other semantic version tags are added automatically by build hooks based on the directory names, e.g. `latest`, `3`, and `3.4` for our example.
 
+## Contribute
+
+You're welcome to contribute to this repository!
+Please be aware of the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+Please open an issue before you start considerable work and do check out existing (closed) issues for possible tasks or previously answered problems.
+Feel free to ping the maintainer via Email if you don't get a response within a few weeks.
+
 ## License
 
 [MRO and MKL licenses](https://mran.microsoft.com/faq/#licensing)
 
 The following license applies to the code files in this repository:
 
-Copyright (C) 2017 Daniel Nüst
+Copyright (C) 2020 Daniel Nüst
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
