@@ -152,6 +152,7 @@ Feel free to ping the maintainer via Email if you don't get a response within a 
 ### Thanks
 
 - Imre Gera [@Hanziness](https://github.com/Hanziness) contributed improved printing of EULAs/licenses ([#12](https://github.com/nuest/mro-docker/pull/12))
+- Roland Seidel [@luechtdiode](https://github.com/luechtdiode) contributed 4.0.2 image files
 
 ## License
 
