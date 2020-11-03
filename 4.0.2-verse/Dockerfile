@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-FROM mro:4.0.2
+FROM nuest/mro:4.0.2
 
 ENV PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
 

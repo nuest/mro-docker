@@ -38,4 +38,4 @@ jobs:
           cat run.log
       - name: Check output
         run: |
-          cat run.log | grep "R version ${{ matrix.version }}"
+          cat run.log | grep "R version $(echo '${{ matrix.version }}' | sed '0,/-verse/ s///')"

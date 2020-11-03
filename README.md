@@ -57,12 +57,14 @@ $ docker run -it --rm mro:3.5.3 R --quiet
 
 ## RStudio with R 4.0.2
 
-Based on `4.0.2` image below.
+Based on `4.0.2-verse` image below, this variant provides RStudio.
 
 ```bash
-docker build --tag mro:4.0.2-rstudio 4.0.2-rstudio
+docker build --tag mro:4.0.2-rstudio ./4.0.2-rstudio
 docker run -p 8787:8787 -e PASSWORD=mro mro:4.0.2-rstudio
 ```
+
+Go to http://localhost:8787 and enter username/password `rstudio/mro`.
 
 ## 4.0.2-verse
 
