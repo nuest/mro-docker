@@ -15,6 +15,7 @@ jobs:
           docker pull ubuntu:14.04
           docker pull ubuntu:16.04
           docker pull ubuntu:18.04
+          docker pull ubuntu:20.04
       - name: List images
         run: |
           docker images
@@ -23,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # the latest bugfix of each release
-        version: ['3.2.5', '3.4.4', '3.5.3', '4.0.2']
+        # the latest bugfix of each release, latest verse variant
+        version: ['3.2.5', '3.4.4', '3.5.3', '4.0.2', '4.0.2-verse']
     
     steps:
       - uses: actions/checkout@v2
@@ -37,4 +38,4 @@ jobs:
           cat run.log
       - name: Check output
         run: |
-          cat run.log | grep "R version ${{ matrix.version }}"
+          cat run.log | grep "R version $(echo '${{ matrix.version }}' | sed '0,/-verse/ s///')"
