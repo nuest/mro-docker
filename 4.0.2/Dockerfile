@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ## (Based on https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile)
 ## Set a default user. Available via runtime flag `--user docker`
@@ -34,6 +34,8 @@ RUN apt-get update \
 		curl \
 		build-essential \
 		gfortran \
+		# needed on Ubuntu 20.04
+		libtinfo5 \
 		# MRO dependencies that don't sort themselves out on their own:
 		less \
 		libgomp1 \
