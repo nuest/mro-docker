@@ -55,13 +55,21 @@ $ docker run -it --rm mro:3.5.3 R --quiet
 >
 ```
 
+## RStudio with R 4.0.2
+
+Based on `4.0.2` image below.
+
+```bash
+docker build --tag mro:4.0.2-rstudio 4.0.2-rstudio
+docker run -p 8787:8787 -e PASSWORD=mro mro:4.0.2-rstudio
+```
+
 ## 4.0.2
 
 > _Microsoft R Open 4.0.2 is based on R-4.0.2._
 > _The default CRAN mirror has been updated to point to the fixed CRAN repository snapshot from Jul 16, 2020._ [release notes](https://mran.microsoft.com/news#mro402)
 
 The base image is Ubuntu 18.04.
-This is also the first MRO image with `Rcpp` preinstalled.
 See also [MRO 4.0.2 documentation](https://mran.microsoft.com/releases/4.0.2).
 
 ```bash
