@@ -1,0 +1,38 @@
+name: Images
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Pre-pull image
+        run: docker pull ubuntu:14.04
+        #- docker pull ubuntu:16.04
+        #- docker pull ubuntu:18.04
+      - name: Build
+        uses: docker/build-push-action@v2.0.1
+        with:
+          context: ./4.0.2
+          push: false
+          tags:
+            - "mro:4.0.2"
+      - name: Test run image
+        run: docker run -it --rm mro:4.0.2 R -e 'print(1+1);' 
+
+      # Runs a set of commands using the runners shell
+      #- name: Run a multi-line script
+      #  run: |
+      #    echo Add other actions to build,
+      #    echo test, and deploy your project.
