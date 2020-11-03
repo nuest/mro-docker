@@ -32,6 +32,8 @@ RUN apt-get update \
 		ca-certificates \
 		curl \
 		nano \
+		build-essential \
+		gfortran \
 		# MRO dependencies dpkg does not install on its own:
 		libcairo2 \
 		libgfortran3 \

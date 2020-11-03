@@ -32,6 +32,8 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		ca-certificates \
 		curl \
+		build-essential \
+		gfortran \
 		# MRO dependencies that don't sort themselves out on their own:
 		less \
 		libgomp1 \
