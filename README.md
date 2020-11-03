@@ -64,6 +64,14 @@ docker build --tag mro:4.0.2-rstudio 4.0.2-rstudio
 docker run -p 8787:8787 -e PASSWORD=mro mro:4.0.2-rstudio
 ```
 
+## 4.0.2-verse
+
+A copycat of the `rocker/verse` image, installing `tidyverse` and other often used packages, and adding R Markdown authoring tools (LaTeX etc.); based on the `4.0.2` image below.
+
+```bash
+docker build -t mro:4.0.2-verse 4.0.2-verse
+```
+
 ## 4.0.2
 
 > _Microsoft R Open 4.0.2 is based on R-4.0.2._
@@ -73,8 +81,7 @@ The base image is Ubuntu 18.04.
 See also [MRO 4.0.2 documentation](https://mran.microsoft.com/releases/4.0.2).
 
 ```bash
-cd 4.0.2
-docker build -t mro:4.0.2 .
+docker build -t mro:4.0.2 ./4.0.2
 ```
 
 ## 3.5.3

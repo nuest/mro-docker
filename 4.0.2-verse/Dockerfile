@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-FROM nuest/mro:4.0.2
+FROM mro:4.0.2
 
 ENV PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
 
@@ -20,7 +20,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
   libcairo2-dev \
   libsqlite3-dev \
   libmariadbd-dev \
-  libmariadb-client-lgpl-dev \
+  libmariadbclient-dev \
   libpq-dev \
   libssh2-1-dev \
   unixodbc-dev \
