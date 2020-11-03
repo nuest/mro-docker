@@ -1,0 +1,40 @@
+name: build images
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pre-pull images
+        run: |
+          docker pull ubuntu:14.04
+          docker pull ubuntu:16.04
+          docker pull ubuntu:18.04
+      - name: List images
+        run: |
+          docker images
+  
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # the latest bugfix of each release
+        version: ['3.2.5', '3.4.4', '3.5.3', '4.0.2']
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: |
+          docker build --tag mro:${{ matrix.version }} ./${{ matrix.version }}
+      - name: Run image
+        run: |
+          docker run -i --rm mro:${{ matrix.version }} R -q -e 'sessionInfo(); print(paste("test:",1+41));' > run.log
+          cat run.log
+      - name: Check output
+        run: |
+          cat run.log | grep "R version ${{ matrix.version }}"
