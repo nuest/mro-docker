@@ -1,3 +1,17 @@
+# Pulling from AWS ECR
+
+All Gridium Docker images are hosted in the AWS container registry. Using aws cli v2, the login command is:
+```
+export REGION='us-east-1'
+export AWS_ECR_URL='634855895757.dkr.ecr.us-east-1.amazonaws.com'
+aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
+docker pull 634855895757.dkr.ecr.us-east-1.amazonaws.com/mro-docker:3.5.3
+``` 
+
+There is a separate ECR with prod images, but these are likely the same. Pushing to prod is probably easiest from the ops server but can be done locally by replacing the variables above. 
+
+(General info from the forked repo follows)
+
 # A Docker image for Microsoft R Open
 
 [![](https://images.microbadger.com/badges/version/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/nuest/mro.svg)](https://microbadger.com/images/nuest/mro "Get your own image badge on microbadger.com") [![Docker Automated build](https://img.shields.io/docker/automated/nuest/mro.svg)](https://hub.docker.com/r/nuest/mro/) [![Actions Status](https://github.com/nuest/mro-docker/workflows/build%20images/badge.svg)](https://github.com/nuest/mro-docker/actions)
