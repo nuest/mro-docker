@@ -1,14 +1,47 @@
 # Pulling from AWS ECR
 
 All Gridium Docker images are hosted in the AWS container registry. Using aws cli v2, the login command is:
+
 ```
 export REGION='us-east-1'
 export AWS_ECR_URL='634855895757.dkr.ecr.us-east-1.amazonaws.com'
 aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
-docker pull 634855895757.dkr.ecr.us-east-1.amazonaws.com/mro-docker:3.5.3
-``` 
+docker pull 634855895757.dkr.ecr.us-east-1.amazonaws.com/mro-docker:4.0.2
+```
 
 There is a separate ECR with prod images, but these are likely the same. Pushing to prod is probably easiest from the ops server but can be done locally by replacing the variables above. 
+
+# Updating to a new version
+
+This repo is a fork of https://github.com/nuest/mro-docker. To upgrade, first
+[syncing this repo with the upstream repo](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-from-the-command-line) to get the new version.
+
+Update Dockerfile to remove EULA (see https://github.com/Gridium/mro-docker-v1/commit/521f10b02044744ed9d14e0e9274960497f2fa54)
+
+build the image:
+```
+export VERSION=4.0.2
+cd $VERSION
+docker build -t gridium/mro-docker:dev .
+```
+
+push to dev ECR; set AWS profile for dev in env
+
+```
+export REGION='us-east-1'
+export AWS_ECR_URL='634855895757.dkr.ecr.us-east-1.amazonaws.com'
+aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
+docker tag gridium/mro-docker:dev $AWS_ECR_URL/mro-docker:$VERSION
+docker push $AWS_ECR_URL/mro-docker:$VERSION
+```
+
+```
+export REGION='us-west-1'
+export AWS_ECR_URL='891208296108.dkr.ecr.us-west-1.amazonaws.com'
+aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
+docker tag gridium/mro-docker:dev $AWS_ECR_URL/mro-docker:$VERSION
+docker push $AWS_ECR_URL/mro-docker:$VERSION
+```
 
 (General info from the forked repo follows)
 
